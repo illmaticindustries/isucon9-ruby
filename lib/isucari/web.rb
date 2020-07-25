@@ -54,7 +54,8 @@ module Isucari
     helpers do
       def db
         Thread.current[:db] ||= Mysql2::Client.new(
-          'host' => ENV['MYSQL_HOST'] || '127.0.0.1',
+          # 'host' => ENV['MYSQL_HOST'] || '127.0.0.1',
+          'host' => 'ec2-18-183-89-74.ap-northeast-1.compute.amazonaws.com',
           'port' => ENV['MYSQL_PORT'] || '3306',
           'database' => ENV['MYSQL_DBNAME'] || 'isucari',
           'username' => ENV['MYSQL_USER'] || 'isucari',
@@ -1195,7 +1196,7 @@ module Isucari
     # getReports
     get '/reports.json' do
       transaction_evidences = db.xquery('SELECT * FROM `transaction_evidences` WHERE `id` > 15007')
-      
+
       response = transaction_evidences.map do |transaction_evidence|
         {
           'id' => transaction_evidence['id'],
